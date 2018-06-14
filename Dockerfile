@@ -1,7 +1,5 @@
 FROM debian:jessie
-MAINTAINER Respoke <info@respoke.io>
-
-RUN useradd --system asterisk
+MAINTAINER Rodrigo Moreno <rmoreno@codemydream.com>
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive \
@@ -37,9 +35,4 @@ RUN apt-get update -qq && \
     pip install j2cli && \
     apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
 
-ENV ASTERISK_VERSION=14.0.2
-COPY build-asterisk.sh /build-asterisk
-RUN /build-asterisk && rm -f /build-asterisk
-COPY asterisk-docker-entrypoint.sh /
-CMD ["/usr/sbin/asterisk", "-f"]
-ENTRYPOINT ["/asterisk-docker-entrypoint.sh"]
+COPY install-asterisk.sh /install-asterisk.sh
