@@ -36,5 +36,8 @@ RUN apt-get update -qq && \
     apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
 
 ENV ASTERISK_VERSION=14.0.2
-COPY install-asterisk.sh /install-asterisk.sh
-RUN chmod 755 /install-asterisk.sh && /install-asterisk.sh && rm -f /install-asterisk.sh
+COPY install-asterisk.sh /install-asterisk
+RUN /install-asterisk && rm -f /install-asterisk
+COPY asterisk-docker-entrypoint.sh /
+CMD ["/usr/sbin/asterisk", "-f"]
+ENTRYPOINT ["/asterisk-docker-entrypoint.sh"]
